@@ -1,8 +1,9 @@
 /**
- * pi-cmux-workflows — extension entrypoint.
+ * pi-cmux-browser — extension entrypoint.
  *
- * Registers a focused set of workflow slash commands for Pi + cmux.
- * Workflows: /split, /review, /open, /handoff
+ * Registers:
+ * - cmux_browser tool (typed, agent-facing)
+ * - /browse command (user-facing convenience)
  *
  * Guards:
  * 1. PI_CMUX_CHILD=1 → bail (prevents recursive spawning)
@@ -12,34 +13,27 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { isAvailable } from "./cmux.js";
 import { debug } from "./debug.js";
-
-import splitWorkflow from "./workflows/split.js";
-import reviewWorkflow from "./workflows/review.js";
-import openProjectWorkflow from "./workflows/open-project.js";
-import handoffWorkflow from "./workflows/handoff.js";
+import { registerBrowserTool } from "./cmux-browser-tool.js";
+import browseWorkflow from "./workflows/browse.js";
 
 const MODULE = "init";
 
-export default async function piCmuxWorkflows(pi: ExtensionAPI): Promise<void> {
-  // Guard: prevent recursive spawn
+export default async function piCmuxBrowser(pi: ExtensionAPI): Promise<void> {
   if (process.env.PI_CMUX_CHILD === "1") {
     debug(MODULE, "skipping — running as child process");
     return;
   }
 
-  // Guard: cmux must be available
   const available = await isAvailable(pi);
   if (!available) {
     debug(MODULE, "skipping — cmux not available");
     return;
   }
 
-  debug(MODULE, "registering workflows");
+  debug(MODULE, "registering tool and workflows");
 
-  splitWorkflow(pi);
-  reviewWorkflow(pi);
-  openProjectWorkflow(pi);
-  handoffWorkflow(pi);
+  registerBrowserTool(pi);
+  browseWorkflow(pi);
 
-  debug(MODULE, "pi-cmux-workflows ready");
+  debug(MODULE, "pi-cmux-browser ready");
 }

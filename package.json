@@ -1,19 +1,27 @@
 {
-  "name": "pi-cmux-workflows",
+  "name": "pi-cmux-browser",
   "version": "0.1.0",
-  "description": "Opinionated workflow commands for Pi + cmux: continue, review, open project, and handoff in splits",
+  "description": "Browser automation for Pi + cmux — typed tool, dev-browser scripting, and web-dev agent",
   "author": "sanurb",
   "license": "MIT",
   "type": "module",
-  "keywords": ["pi-package", "pi", "pi-coding-agent", "cmux", "workflows"],
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "cmux",
+    "browser",
+    "dev-browser",
+    "automation"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sanurb/pi-cmux-workflows.git"
+    "url": "git+https://github.com/sanurb/pi-cmux-browser.git"
   },
   "files": [
     "extensions/",
     "skills/",
-    "prompts/",
+    "agents/",
     "README.md"
   ],
   "pi": {
@@ -23,15 +31,19 @@
     "skills": [
       "./skills"
     ],
-    "prompts": [
-      "./prompts"
+    "agents": [
+      "./agents"
     ]
   },
   "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "*"
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-ai": ">=0.63.0",
+    "@sinclair/typebox": ">=0.34.0"
   },
   "devDependencies": {
+    "@mariozechner/pi-ai": "^0.63.1",
     "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "^0.34.49",
     "typescript": "^6.0.2"
   }
 }
